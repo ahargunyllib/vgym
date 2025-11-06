@@ -1,43 +1,91 @@
-# Astro Starter Kit: Minimal
+# VGym
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+An educational and informative 3D web application built with Astro and Three.js that allows users to explore gym equipment in an interactive virtual gym environment.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📋 Table of Contents
 
-## 🚀 Project Structure
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [3D Assets](#3d-assets)
+- [Camera Controls](#camera-controls)
+- [Performance Optimization](#performance-optimization)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🎯 Overview
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+This project provides an immersive 3D gym experience where users can:
+- Explore a virtual gym environment
+- Click on equipment to enter detailed showcase mode
+- Rotate equipment 360° and zoom for detailed inspection
+- Learn proper usage, form, and muscle groups targeted
+- View animated demonstrations of exercises
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+**Target Audience:**
+- Gym beginners learning equipment
+- Fitness enthusiasts studying proper form
+- Personal trainers for client education
+- Gym owners for member orientation
+- Students in sports science/kinesiology
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## ✨ Features
 
-Any static assets, like images, can be placed in the `public/` directory.
+### 1. Main Gym View
+- Interactive 3D gym environment with multiple equipment pieces
+- Clickable equipment with hover effects (highlight/glow)
+- Smooth camera navigation
+- Equipment list sidebar for quick navigation
+- Realistic ambient gym lighting
 
-## 🧞 Commands
+### 2. Showcase/Detail Mode
+- Smooth camera transition when equipment is clicked
+- Isolated view with spotlight effect
+- 360° orbital rotation (mouse drag or touch)
+- Zoom in/out (mouse wheel/pinch gesture)
+- Reset view button
+- Back to gym navigation
 
-All commands are run from the root of the project, from a terminal:
+### 3. Information Display
+Each equipment shows:
+- Equipment name and category
+- Primary and secondary muscle groups targeted
+- Step-by-step usage instructions
+- Proper form tips and common mistakes
+- Difficulty level (Beginner/Intermediate/Advanced)
+- Alternative exercises
+- Safety warnings and precautions
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+### 4. Interactive Features
+- Hotspot markers on equipment parts for detailed info
+- "Show Animation" button for exercise demonstrations
+- Adjustable equipment settings (weights, seat height)
+- Muscle activation visualization
+- Search and filter functionality
+- Favorite/bookmark equipment
 
-## 👀 Want to learn more?
+### 5. Equipment Categories
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+**Cardio:**
+- Treadmill
+- Stationary Bike
+- Elliptical
+
+**Strength:**
+- Bench Press
+- Squat Rack
+- Lat Pulldown Machine
+- Cable Machine
+- Dumbbells (various weights)
+- Barbells
+- Kettlebells
+
+**Functional:**
+- Pull-up Bar
+- Battle Ropes
+- Medicine Balls
+- Resistance Bands
+
