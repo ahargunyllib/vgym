@@ -1,11 +1,71 @@
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Background colors */
+    --background: 0 0% 7%; /* #121212 - Deep charcoal */
+    --foreground: 0 0% 98%; /* #fafafa - Off white */
+
+    /* Card colors */
+    --card: 0 0% 10%; /* #1a1a1a - Slightly lighter than background */
+    --card-foreground: 0 0% 98%;
+
+    /* Popover colors */
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary - Yellow/Amber */
+    --primary: 45 93% 58%; /* #f5c542 - Vibrant yellow */
+    --primary-foreground: 0 0% 7%; /* Dark text on yellow */
+
+    /* Secondary - Gray */
+    --secondary: 0 0% 20%; /* #333333 - Medium gray */
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted colors */
+    --muted: 0 0% 15%; /* #262626 - Muted background */
+    --muted-foreground: 0 0% 65%; /* #a6a6a6 - Muted text */
+
+    /* Accent - Lighter yellow */
+    --accent: 45 90% 65%; /* #f7d468 - Light yellow accent */
+    --accent-foreground: 0 0% 7%;
+
+    /* Destructive - Red for warnings */
+    --destructive: 0 84% 60%; /* #ef4444 - Red */
+    --destructive-foreground: 0 0% 98%;
+
+    /* Border colors */
+    --border: 0 0% 20%; /* #333333 - Subtle borders */
+    --input: 0 0% 20%;
+    --ring: 45 93% 58%; /* Yellow focus ring */
+
+    /* Chart colors (using yellow/gray palette) */
+    --chart-1: 45 93% 58%; /* Primary yellow */
+    --chart-2: 40 85% 55%; /* Orange-yellow */
+    --chart-3: 0 0% 40%; /* Medium gray */
+    --chart-4: 0 0% 60%; /* Light gray */
+    --chart-5: 50 95% 70%; /* Light yellow */
+
+    /* Radius */
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
   html,
   body {
-    @apply w-full h-full overflow-hidden bg-background text-slate-100 antialiased;
+    @apply w-full h-full overflow-hidden bg-background text-foreground antialiased;
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   }
 
   button {
@@ -22,19 +82,94 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-surface;
+    @apply bg-muted;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-surface-light rounded;
+    @apply bg-muted-foreground/30 rounded;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-border;
+    @apply bg-muted-foreground/50;
   }
 
   /* Focus styles for accessibility */
   *:focus-visible {
-    @apply outline-2 outline-primary outline-offset-2;
+    @apply outline-2 outline-ring outline-offset-2;
+  }
+}
+
+@layer components {
+  /* Shadcn-style badge variants */
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors;
+  }
+
+  .badge-default {
+    @apply border-transparent bg-primary text-primary-foreground hover:bg-primary/80;
+  }
+
+  .badge-secondary {
+    @apply border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  .badge-outline {
+    @apply text-foreground border-border;
+  }
+
+  .badge-destructive {
+    @apply border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80;
+  }
+
+  /* Shadcn-style button variants */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-default {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  .btn-outline {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Shadcn-style card */
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+}
+
+@layer utilities {
+  /* Custom gradient for branding */
+  .gradient-brand {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(45 100% 70%) 100%
+    );
+  }
+
+  /* Glassmorphism effect */
+  .glass {
+    @apply bg-background/80 backdrop-blur-xl border border-border;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 100%
+    );
   }
 }

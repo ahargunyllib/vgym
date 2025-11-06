@@ -21,12 +21,12 @@ export const EquipmentList = ({
   return (
     <nav
       aria-label="Equipment list"
-      className="fixed top-0 left-0 z-[100] flex h-screen w-full max-w-[320px] flex-col border-border border-r bg-background/95 shadow-2xl backdrop-blur-xl"
+      className="glass fixed top-0 left-0 z-[100] flex h-screen w-full max-w-[320px] flex-col shadow-2xl"
       role="navigation"
     >
       {/* Header */}
-      <div className="border-border border-b bg-surface/50 p-6">
-        <h2 className="font-bold text-2xl text-slate-100">Equipment</h2>
+      <div className="border-border border-b bg-card/50 p-6">
+        <h2 className="font-bold text-2xl text-foreground">Equipment</h2>
       </div>
 
       {/* Content */}
@@ -40,7 +40,7 @@ export const EquipmentList = ({
 
           return (
             <div className="mb-6" key={category}>
-              <h3 className="mb-3 flex items-center gap-2 px-2 font-semibold text-base text-slate-400 uppercase tracking-wider">
+              <h3 className="mb-3 flex items-center gap-2 px-2 font-semibold text-base text-muted-foreground uppercase tracking-wider">
                 <span className="text-xl">{categoryIcons[category]}</span>
                 <span className="flex-1">{category}</span>
               </h3>
@@ -52,8 +52,8 @@ export const EquipmentList = ({
                       aria-label={`View ${equipment.name}`}
                       className={`flex w-full items-center justify-between gap-3 rounded-lg px-4 py-3.5 text-left transition-all duration-250 ${
                         selectedEquipment === equipment.id
-                          ? "bg-primary text-white"
-                          : "bg-transparent text-slate-400 hover:translate-x-1 hover:bg-surface hover:text-slate-100"
+                          ? "bg-primary font-semibold text-primary-foreground"
+                          : "bg-transparent text-muted-foreground hover:translate-x-1 hover:bg-muted hover:text-foreground"
                       }`}
                       onClick={() => onEquipmentSelect(equipment.id)}
                       type="button"
@@ -64,8 +64,8 @@ export const EquipmentList = ({
                       <span
                         className={`rounded px-2 py-1 text-xs capitalize ${
                           selectedEquipment === equipment.id
-                            ? "bg-white/20"
-                            : "bg-white/10"
+                            ? "bg-primary-foreground/20"
+                            : "bg-muted-foreground/10"
                         }`}
                       >
                         {equipment.difficulty}

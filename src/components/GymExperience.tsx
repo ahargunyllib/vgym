@@ -58,7 +58,7 @@ export const GymExperience = () => {
         <div className="-translate-x-1/2 fixed top-6 left-1/2 z-50 flex flex-col items-center gap-4">
           <button
             aria-label="Back to gym view"
-            className="hover:-translate-y-0.5 flex items-center gap-3 rounded-full border border-border bg-surface/95 px-6 py-3.5 font-semibold text-base text-slate-100 shadow-lg backdrop-blur-xl transition-all duration-250 hover:bg-surface-light hover:shadow-xl"
+            className="btn btn-default hover:-translate-y-0.5 gap-3 rounded-full px-6 py-3.5 shadow-lg hover:shadow-xl"
             onClick={handleCloseShowcase}
             type="button"
           >
@@ -79,7 +79,7 @@ export const GymExperience = () => {
             <span>Back to Gym</span>
           </button>
 
-          <div className="flex gap-6 rounded-full border border-border bg-surface/90 px-5 py-3 text-slate-400 text-sm backdrop-blur-xl">
+          <div className="glass flex gap-6 rounded-full px-5 py-3 text-muted-foreground text-sm">
             <div className="flex items-center gap-2">
               <span className="text-lg">🖱️</span>
               <span>Drag to rotate</span>
@@ -94,10 +94,8 @@ export const GymExperience = () => {
 
       {/* Branding */}
       <div className="-translate-x-1/2 pointer-events-none fixed bottom-8 left-1/2 z-10 text-center">
-        <h1 className="mb-2 bg-gradient-to-br from-blue-500 to-purple-600 bg-clip-text font-black text-5xl text-transparent">
-          VGym
-        </h1>
-        <p className="font-medium text-base text-slate-400">
+        <h1 className="mb-2 font-black text-5xl text-gradient">VGym</h1>
+        <p className="font-medium text-base text-muted-foreground">
           Interactive 3D Gym Equipment Guide
         </p>
       </div>
