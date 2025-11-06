@@ -10,5 +10,16 @@
   },
   "dependencies": {
     "astro": "^5.15.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.4",
+    "lefthook": "^2.0.2",
+    "lint-staged": "^16.2.6",
+    "ultracite": "6.3.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "pnpm dlx ultracite fix"
+    ]
   }
 }
