@@ -1,12 +1,21 @@
+---
+  import { GymExperience } from "../components/GymExperience";
+  import "../styles/global.css";
+---
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content={Astro.generator}>
-    <title>Astro</title>
+    <meta
+      name="description"
+      content="VGym - Interactive 3D Gym Equipment Guide. Explore gym equipment in an immersive virtual environment and learn proper form, exercises, and safety tips."
+    >
+    <title>VGym - Interactive 3D Gym Equipment Guide</title>
   </head>
   <body>
-    <h1>Astro</h1>
+    <GymExperience client:load/>
   </body>
 </html>

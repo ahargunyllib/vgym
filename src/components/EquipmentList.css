@@ -1,0 +1,134 @@
+.equipment-list {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  max-width: 320px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xl);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment-list-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.equipment-list-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.equipment-list-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.equipment-category {
+  margin-bottom: 1.5rem;
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  padding: 0 0.5rem;
+}
+
+.category-icon {
+  font-size: 1.25rem;
+}
+
+.category-name {
+  flex: 1;
+}
+
+.equipment-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.equipment-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border-radius: 0.5rem;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.equipment-item:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+  transform: translateX(4px);
+}
+
+.equipment-item.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+.equipment-item.active:hover {
+  background: var(--color-primary-dark);
+}
+
+.equipment-name {
+  font-weight: 500;
+  flex: 1;
+}
+
+.equipment-difficulty {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  text-transform: capitalize;
+}
+
+.equipment-item.active .equipment-difficulty {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .equipment-list {
+    max-width: 280px;
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+  }
+
+  .equipment-list.open {
+    transform: translateX(0);
+  }
+
+  .equipment-list-header {
+    padding: 1rem;
+  }
+
+  .equipment-list-content {
+    padding: 0.75rem;
+  }
+}
