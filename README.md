@@ -6,15 +6,6 @@ An educational and informative 3D web application built with Astro and Three.js 
 
 - [Overview](#overview)
 - [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Project Structure](#project-structure)
-- [Usage](#usage)
-- [3D Assets](#3d-assets)
-- [Camera Controls](#camera-controls)
-- [Performance Optimization](#performance-optimization)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
 
 ## 🎯 Overview
 
@@ -88,4 +79,3 @@ Each equipment shows:
 - Battle Ropes
 - Medicine Balls
 - Resistance Bands
-
