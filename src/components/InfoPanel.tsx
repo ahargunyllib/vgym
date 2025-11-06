@@ -1,5 +1,4 @@
 import type { EquipmentInfo } from "../types/equipment";
-import "./InfoPanel.css";
 
 interface InfoPanelProps {
   equipment: EquipmentInfo | null;
@@ -15,9 +14,9 @@ export const InfoPanel = ({
   if (!(isVisible && equipment)) return null;
 
   const difficultyColors = {
-    beginner: "#10b981",
-    intermediate: "#f59e0b",
-    advanced: "#ef4444",
+    beginner: "bg-emerald-500",
+    intermediate: "bg-amber-500",
+    advanced: "bg-red-500",
   };
 
   const categoryIcons = {
@@ -27,17 +26,23 @@ export const InfoPanel = ({
   };
 
   return (
-    <div aria-labelledby="equipment-name" className="info-panel" role="dialog">
-      <div className="info-panel-header">
-        <h2 className="info-panel-title" id="equipment-name">
-          <span className="category-icon">
-            {categoryIcons[equipment.category]}
-          </span>
+    <div
+      aria-labelledby="equipment-name"
+      className="fixed top-0 right-0 z-[100] flex h-screen w-full max-w-[500px] animate-slide-in flex-col border-border border-l bg-background/95 shadow-2xl backdrop-blur-xl"
+      role="dialog"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between border-border border-b bg-surface/50 p-6">
+        <h2
+          className="flex items-center gap-3 font-bold text-3xl text-slate-100"
+          id="equipment-name"
+        >
+          <span className="text-4xl">{categoryIcons[equipment.category]}</span>
           {equipment.name}
         </h2>
         <button
           aria-label="Close information panel"
-          className="close-button"
+          className="flex items-center justify-center rounded-lg p-2 text-slate-400 transition-all duration-250 hover:scale-110 hover:bg-surface hover:text-slate-100"
           onClick={onClose}
           type="button"
         >
@@ -57,36 +62,54 @@ export const InfoPanel = ({
         </button>
       </div>
 
-      <div className="info-panel-content">
-        <div className="equipment-meta">
-          <span className="category-badge">{equipment.category}</span>
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-6">
+        {/* Meta badges */}
+        <div className="mb-6 flex gap-3">
+          <span className="rounded-full bg-surface px-3 py-1.5 font-semibold text-slate-100 text-sm capitalize">
+            {equipment.category}
+          </span>
           <span
-            className="difficulty-badge"
-            style={{ backgroundColor: difficultyColors[equipment.difficulty] }}
+            className={`rounded-full px-3 py-1.5 font-semibold text-sm text-white capitalize ${difficultyColors[equipment.difficulty]}`}
           >
             {equipment.difficulty}
           </span>
         </div>
 
-        <p className="equipment-description">{equipment.description}</p>
+        {/* Description */}
+        <p className="mb-8 text-base text-slate-400 leading-relaxed">
+          {equipment.description}
+        </p>
 
-        <section className="info-section">
-          <h3>Primary Muscles</h3>
-          <div className="muscle-tags">
+        {/* Primary Muscles */}
+        <section className="mb-8">
+          <h3 className="mb-3 font-semibold text-lg text-slate-100">
+            Primary Muscles
+          </h3>
+          <div className="flex flex-wrap gap-2">
             {equipment.primaryMuscles.map((muscle) => (
-              <span className="muscle-tag primary" key={muscle}>
+              <span
+                className="rounded-md border border-blue-500/30 bg-blue-500/20 px-3.5 py-1.5 font-medium text-blue-400 text-sm capitalize"
+                key={muscle}
+              >
                 {muscle}
               </span>
             ))}
           </div>
         </section>
 
+        {/* Secondary Muscles */}
         {equipment.secondaryMuscles.length > 0 && (
-          <section className="info-section">
-            <h3>Secondary Muscles</h3>
-            <div className="muscle-tags">
+          <section className="mb-8">
+            <h3 className="mb-3 font-semibold text-lg text-slate-100">
+              Secondary Muscles
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {equipment.secondaryMuscles.map((muscle) => (
-                <span className="muscle-tag secondary" key={muscle}>
+                <span
+                  className="rounded-md border border-purple-500/30 bg-purple-500/20 px-3.5 py-1.5 font-medium text-purple-400 text-sm capitalize"
+                  key={muscle}
+                >
                   {muscle}
                 </span>
               ))}
@@ -94,39 +117,60 @@ export const InfoPanel = ({
           </section>
         )}
 
-        <section className="info-section">
-          <h3>Instructions</h3>
-          <ol className="instruction-list">
+        {/* Instructions */}
+        <section className="mb-8">
+          <h3 className="mb-3 font-semibold text-lg text-slate-100">
+            Instructions
+          </h3>
+          <ol className="list-decimal space-y-2 pl-6 text-slate-400">
             {equipment.instructions.map((instruction, index) => (
-              <li key={`instruction-${index + 1}`}>{instruction}</li>
+              <li className="leading-relaxed" key={`instruction-${index + 1}`}>
+                {instruction}
+              </li>
             ))}
           </ol>
         </section>
 
-        <section className="info-section">
-          <h3>Proper Form</h3>
-          <ul className="form-list">
+        {/* Proper Form */}
+        <section className="mb-8">
+          <h3 className="mb-3 font-semibold text-lg text-slate-100">
+            Proper Form
+          </h3>
+          <ul className="list-disc space-y-2 pl-6 text-slate-400">
             {equipment.properForm.map((form, index) => (
-              <li key={`form-${index + 1}`}>{form}</li>
+              <li className="leading-relaxed" key={`form-${index + 1}`}>
+                {form}
+              </li>
             ))}
           </ul>
         </section>
 
-        <section className="info-section warning">
-          <h3>Common Mistakes</h3>
-          <ul className="mistakes-list">
+        {/* Common Mistakes */}
+        <section className="mb-8 rounded-lg border-amber-500 border-l-4 bg-amber-500/10 p-4">
+          <h3 className="mb-3 font-semibold text-lg text-slate-100">
+            Common Mistakes
+          </h3>
+          <ul className="list-disc space-y-2 pl-6 text-slate-400">
             {equipment.commonMistakes.map((mistake, index) => (
-              <li key={`mistake-${index + 1}`}>{mistake}</li>
+              <li className="leading-relaxed" key={`mistake-${index + 1}`}>
+                {mistake}
+              </li>
             ))}
           </ul>
         </section>
 
+        {/* Alternative Exercises */}
         {equipment.alternatives.length > 0 && (
-          <section className="info-section">
-            <h3>Alternative Exercises</h3>
-            <div className="alternatives">
+          <section className="mb-8">
+            <h3 className="mb-3 font-semibold text-lg text-slate-100">
+              Alternative Exercises
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {equipment.alternatives.map((alt) => (
-                <span className="alternative-tag" key={alt}>
+                <span
+                  className="rounded-lg border border-border bg-surface px-4 py-2 text-slate-400 text-sm"
+                  key={alt}
+                >
                   {alt}
                 </span>
               ))}
@@ -134,11 +178,16 @@ export const InfoPanel = ({
           </section>
         )}
 
-        <section className="info-section danger">
-          <h3>⚠️ Safety Warnings</h3>
-          <ul className="safety-list">
+        {/* Safety Warnings */}
+        <section className="rounded-lg border-red-500 border-l-4 bg-red-500/10 p-4">
+          <h3 className="mb-3 font-semibold text-lg text-slate-100">
+            ⚠️ Safety Warnings
+          </h3>
+          <ul className="list-disc space-y-2 pl-6 text-slate-400">
             {equipment.safetyWarnings.map((warning, index) => (
-              <li key={`warning-${index + 1}`}>{warning}</li>
+              <li className="leading-relaxed" key={`warning-${index + 1}`}>
+                {warning}
+              </li>
             ))}
           </ul>
         </section>

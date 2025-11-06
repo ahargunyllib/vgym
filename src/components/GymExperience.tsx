@@ -3,7 +3,6 @@ import { equipmentData } from "../data/equipmentData";
 import { EquipmentList } from "./EquipmentList";
 import { InfoPanel } from "./InfoPanel";
 import { Scene } from "./Scene";
-import "./GymExperience.css";
 
 export const GymExperience = () => {
   const [highlightedEquipment, setHighlightedEquipment] = useState<
@@ -30,7 +29,7 @@ export const GymExperience = () => {
     : null;
 
   return (
-    <div className="gym-experience">
+    <div className="relative h-screen w-full overflow-hidden">
       {/* Equipment List Sidebar */}
       <EquipmentList
         onEquipmentSelect={handleEquipmentClick}
@@ -38,7 +37,7 @@ export const GymExperience = () => {
       />
 
       {/* 3D Scene */}
-      <div className="scene-container">
+      <div className="absolute inset-0 h-full w-full">
         <Scene
           highlightedEquipment={highlightedEquipment}
           onEquipmentClick={handleEquipmentClick}
@@ -56,14 +55,15 @@ export const GymExperience = () => {
 
       {/* Controls Overlay */}
       {showcaseEquipment && (
-        <div className="controls-overlay">
+        <div className="-translate-x-1/2 fixed top-6 left-1/2 z-50 flex flex-col items-center gap-4">
           <button
             aria-label="Back to gym view"
-            className="back-button"
+            className="hover:-translate-y-0.5 flex items-center gap-3 rounded-full border border-border bg-surface/95 px-6 py-3.5 font-semibold text-base text-slate-100 shadow-lg backdrop-blur-xl transition-all duration-250 hover:bg-surface-light hover:shadow-xl"
             onClick={handleCloseShowcase}
             type="button"
           >
             <svg
+              className="group-hover:-translate-x-1 transition-transform duration-250"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -79,13 +79,13 @@ export const GymExperience = () => {
             <span>Back to Gym</span>
           </button>
 
-          <div className="controls-hint">
-            <div className="hint-item">
-              <span className="hint-icon">🖱️</span>
+          <div className="flex gap-6 rounded-full border border-border bg-surface/90 px-5 py-3 text-slate-400 text-sm backdrop-blur-xl">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🖱️</span>
               <span>Drag to rotate</span>
             </div>
-            <div className="hint-item">
-              <span className="hint-icon">🔍</span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🔍</span>
               <span>Scroll to zoom</span>
             </div>
           </div>
@@ -93,9 +93,13 @@ export const GymExperience = () => {
       )}
 
       {/* Branding */}
-      <div className="branding">
-        <h1>VGym</h1>
-        <p>Interactive 3D Gym Equipment Guide</p>
+      <div className="-translate-x-1/2 pointer-events-none fixed bottom-8 left-1/2 z-10 text-center">
+        <h1 className="mb-2 bg-gradient-to-br from-blue-500 to-purple-600 bg-clip-text font-black text-5xl text-transparent">
+          VGym
+        </h1>
+        <p className="font-medium text-base text-slate-400">
+          Interactive 3D Gym Equipment Guide
+        </p>
       </div>
     </div>
   );
