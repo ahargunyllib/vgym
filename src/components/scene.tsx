@@ -25,7 +25,34 @@ export const Scene = () => {
         target={[0, -H / 2 + 1.4, 0]}
       />
 
-      <ambientLight intensity={1} />
+      {/* Hemisphere light for natural sky/ground color bounce */}
+      <hemisphereLight color="#ffffff" groundColor="#b3b3b3" intensity={0.4} />
+
+      {/* Ambient light for soft fill illumination */}
+      <ambientLight intensity={0.3} />
+
+      {/* Main directional light simulating sunlight from window */}
+      <directionalLight
+        castShadow
+        color="#fdf4dc"
+        intensity={0.8}
+        position={[3, 2, 4]}
+        shadow-bias={-0.0001}
+        shadow-camera-bottom={-5}
+        shadow-camera-far={20}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
+        shadow-camera-top={5}
+        shadow-mapSize-height={2048}
+        shadow-mapSize-width={2048}
+      />
+
+      {/* Secondary fill light from opposite side */}
+      <directionalLight
+        color="#b3d9ff"
+        intensity={0.15}
+        position={[-2, 1.5, -2]}
+      />
 
       {/* Floor */}
       <mesh
