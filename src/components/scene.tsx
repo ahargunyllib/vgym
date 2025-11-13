@@ -25,33 +25,36 @@ export const Scene = () => {
         target={[0, -H / 2 + 1.4, 0]}
       />
 
-      {/* Hemisphere light for natural sky/ground color bounce */}
-      <hemisphereLight color="#ffffff" groundColor="#b3b3b3" intensity={0.4} />
+      {/* Hemisphere light with cool gym atmosphere */}
+      <hemisphereLight color="#e3f2ff" groundColor="#9e9e9e" intensity={0.5} />
 
       {/* Ambient light for soft fill illumination */}
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.2} />
 
-      {/* Main directional light simulating sunlight from window */}
+      {/* Main overhead light - bright gym lighting */}
       <directionalLight
         castShadow
-        color="#fdf4dc"
-        intensity={0.8}
-        position={[3, 2, 4]}
-        shadow-bias={-0.0001}
-        shadow-camera-bottom={-5}
-        shadow-camera-far={20}
-        shadow-camera-left={-5}
-        shadow-camera-right={5}
-        shadow-camera-top={5}
+        color="#f0f8ff"
+        intensity={1.0}
+        position={[0, 5, 0]}
+        shadow-bias={-0.0005}
+        shadow-camera-bottom={-3}
+        shadow-camera-far={15}
+        shadow-camera-left={-3}
+        shadow-camera-near={0.1}
+        shadow-camera-right={3}
+        shadow-camera-top={3}
         shadow-mapSize-height={2048}
         shadow-mapSize-width={2048}
       />
 
-      {/* Secondary fill light from opposite side */}
-      <directionalLight
-        color="#b3d9ff"
-        intensity={0.15}
-        position={[-2, 1.5, -2]}
+      {/* Orange accent light - top middle */}
+      <pointLight
+        color="#ff8800"
+        decay={2}
+        distance={7}
+        intensity={2.0}
+        position={[0, H / 2 - 0.3, 0]}
       />
 
       {/* Floor */}
