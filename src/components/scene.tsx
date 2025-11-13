@@ -19,6 +19,7 @@ export const Scene = () => {
       <OrbitControls
         dampingFactor={0.05}
         enableDamping
+        enablePan={false}
         enableZoom={false}
         maxPolarAngle={(2 * Math.PI) / 3}
         minPolarAngle={Math.PI / 3}
