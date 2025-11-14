@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { BenchPress } from "./equipment/bench-press";
-import { Dumbbell } from "./equipment/Dumbbell";
+import { Dumbbell } from "./equipment/dumbbell";
 import { Kettlebell } from "./equipment/kettlebell";
 
 export const Scene = () => {
