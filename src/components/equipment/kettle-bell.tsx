@@ -1,7 +1,6 @@
 import type { ThreeElements } from "@react-three/fiber";
 
 export const Kettlebell = (props: ThreeElements["group"]) => (
-  // kettlebell
   <group {...props}>
     <mesh castShadow>
       <sphereGeometry args={[0.12, 32, 32]} />

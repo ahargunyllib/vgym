@@ -3,7 +3,6 @@ import type { ThreeElements } from "@react-three/fiber";
 export const Dumbbell = (props: ThreeElements["group"]) => {
   return (
     <group {...props}>
-      {/* Bar */}
       <mesh castShadow>
         <cylinderGeometry args={[0.05, 0.05, 0.3, 16]} />
         <meshStandardMaterial color="#2c3e50" metalness={0.8} roughness={0.2} />
