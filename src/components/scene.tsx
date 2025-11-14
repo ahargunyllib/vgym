@@ -1,8 +1,8 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { BenchPress } from "./equipment/bench-press";
-import { Dumbbell } from "./equipment/dumb-bell";
-import { Kettlebell } from "./equipment/kettle-bell";
+import { Dumbbell } from "./equipment/Dumbbell";
+import { Kettlebell } from "./equipment/kettlebell";
 
 export const Scene = () => {
   // Room dimensions (meters)
