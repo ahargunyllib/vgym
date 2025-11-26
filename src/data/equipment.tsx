@@ -1,5 +1,6 @@
 import { Barbell } from "../components/equipment/barbell";
 import { BenchPress } from "../components/equipment/bench-press";
+import { DipStation } from "../components/equipment/dip-station";
 import { Dumbbell } from "../components/equipment/dumbbell";
 import { Kettlebell } from "../components/equipment/kettlebell";
 import { Placeholder } from "../components/equipment/placeholder";
@@ -221,24 +222,38 @@ export const equipmentData: Record<string, EquipmentData> = {
     rotation: [0, Math.PI / 2, 0],
     component: Placeholder,
   },
-  placeholder: {
-    id: "placeholder",
-    name: "placeholder",
-    exerciseName: "placeholder",
-    category: "Cardio",
-    difficulty: "Beginner",
+  "dip-station": {
+    id: "dip-station",
+    name: "Dip Station",
+    exerciseName: "Dip",
+    category: "Strength",
+    difficulty: "Intermediate",
     musclesTargeted: {
-      primary: ["placeholder"],
-      secondary: ["placeholder"],
+      primary: ["Triceps", "Lower Chest"],
+      secondary: ["Anterior Deltoids (Front Shoulders)", "Rhomboids"],
     },
-    usageInstructions: ["placeholder"],
-    properFormTips: ["placeholder"],
-    commonMistakes: ["placeholder"],
-    safety: "placeholder",
-    alternatives: ["placeholder"],
-    position: [1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, -1.5],
+    usageInstructions: [
+      "Grab the parallel bars and jump up to a straight arm position (support hold).",
+      "Cross your ankles behind you.",
+      "Lower your body by bending your elbows until shoulders are below elbows (breaking parallel).",
+      "Push yourself back up to the starting position.",
+    ],
+    properFormTips: [
+      "For Chest: Lean torso forward slightly.",
+      "For Triceps: Keep torso upright.",
+      "Keep elbows tucked in; don't let them flare out too wide.",
+    ],
+    commonMistakes: [
+      "Shrugging shoulders up towards ears (keep them depressed).",
+      "Not going deep enough (half reps).",
+      "Swinging legs for momentum.",
+    ],
+    safety:
+      "Stop if you feel sharp pain in your shoulders or sternum. Ensure the station is stable.",
+    alternatives: ["Bench Dips", "Close-Grip Bench Press", "Cable Pushdowns"],
+    position: [1.5, -ROOM_DIMENSIONS.H / 2 , -1.5],
     rotation: [0, 0, 0],
-    component: Placeholder,
+    component: DipStation,
   },
 };
 
