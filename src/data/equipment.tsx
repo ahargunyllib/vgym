@@ -110,7 +110,7 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "This exercise requires strict form. If your back rounds, lower the weight. Use a weight belt if lifting heavy.",
     alternatives: ["Trap Bar Deadlift", "Rack Pulls", "Romanian Deadlift"],
-    position: [0, -ROOM_DIMENSIONS.H / 2 + 0.1, 1.2],
+    position: [0, -ROOM_DIMENSIONS.H / 2 + 0.22, 1.9],
     rotation: [0, Math.PI / 2, 0],
     component: Barbell,
   },

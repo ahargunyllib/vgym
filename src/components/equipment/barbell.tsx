@@ -2,16 +2,16 @@ import type { ThreeElements } from "@react-three/fiber";
 
 export const Barbell = (props: ThreeElements["group"]) => (
   <group {...props}>
-    <mesh castShadow>
+    <mesh castShadow rotation={[Math.PI / 2, 0, 0]}>
       <cylinderGeometry args={[0.05, 0.05, 2.0, 32]} />
       <meshStandardMaterial color="#1a1a1a" metalness={0.7} roughness={0.3} />
     </mesh>
-    <mesh castShadow position={[0, 0.1, -1]}>
-      <cylinderGeometry args={[0.08, 0.08, 0.2, 32]} />
+    <mesh castShadow position={[0, 0, -0.88]} rotation={[Math.PI / 2, 0, 0]}>
+      <cylinderGeometry args={[0.22, 0.22, 0.04, 32]} />
       <meshStandardMaterial color="#1a1a1a" metalness={0.7} roughness={0.3} />
     </mesh>
-    <mesh castShadow position={[0, 0.1, 1]}>
-      <cylinderGeometry args={[0.08, 0.08, 0.2, 32]} />
+    <mesh castShadow position={[0, 0, 0.88]} rotation={[Math.PI / 2, 0, 0]}>
+      <cylinderGeometry args={[0.22, 0.22, 0.04, 32]} />
       <meshStandardMaterial color="#1a1a1a" metalness={0.7} roughness={0.3} />
     </mesh>
   </group>
