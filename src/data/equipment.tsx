@@ -2,6 +2,7 @@ import { Barbell } from "../components/equipment/barbell";
 import { BenchPress } from "../components/equipment/bench-press";
 import { Dumbbell } from "../components/equipment/dumbbell";
 import { Kettlebell } from "../components/equipment/kettlebell";
+import { Placeholder } from "../components/equipment/placeholder";
 import type { EquipmentData } from "../types/equipment";
 import { ROOM_DIMENSIONS } from "./constant";
 
@@ -150,6 +151,25 @@ export const equipmentData: Record<string, EquipmentData> = {
     position: [0, -ROOM_DIMENSIONS.H / 2, -1.2],
     rotation: [0, 0, 0],
     component: BenchPress,
+  },
+  placeholder: {
+    id: "placeholder",
+    name: "placeholder",
+    exerciseName: "placeholder",
+    category: "Cardio",
+    difficulty: "Beginner",
+    musclesTargeted: {
+      primary: ["placeholder"],
+      secondary: ["placeholder"],
+    },
+    usageInstructions: ["placeholder"],
+    properFormTips: ["placeholder"],
+    commonMistakes: ["placeholder"],
+    safety: "placeholder",
+    alternatives: ["placeholder"],
+    position: [1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, -1.5],
+    rotation: [0, 0, 0],
+    component: Placeholder,
   },
 };
 
