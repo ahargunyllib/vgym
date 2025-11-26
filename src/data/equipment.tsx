@@ -187,6 +187,40 @@ export const equipmentData: Record<string, EquipmentData> = {
     rotation: [0, 0, 0],
     component: Placeholder,
   },
+  "pull-up-bar": {
+    id: "pull-up-bar",
+    name: "Pull-Up Bar",
+    exerciseName: "Pull-Up",
+    category: "Functional",
+    difficulty: "Advanced",
+    musclesTargeted: {
+      primary: ["Latissimus Dorsi (Lats)"],
+      secondary: ["Biceps", "Rhomboids", "Trapezius", "Forearms"],
+    },
+    usageInstructions: [
+      "Grab the bar with an overhand grip, hands slightly wider than shoulders.",
+      "Hang with arms fully extended (dead hang).",
+      "Pull your chest up towards the bar by driving elbows down and back.",
+      "Clear your chin over the bar.",
+      "Lower yourself slowly to the starting position.",
+    ],
+    properFormTips: [
+      "Engage your core to prevent swinging.",
+      "Focus on depressing (pulling down) shoulder blades before pulling with arms.",
+      "Don't reach with your chin; pull with your back.",
+    ],
+    commonMistakes: [
+      "Kipping (swinging legs) to cheat the rep.",
+      "Not going down to full extension.",
+      "Rounding shoulders forward at the top.",
+    ],
+    safety:
+      "Ensure grip is dry. Don't jump off aggressively from the top position.",
+    alternatives: ["Lat Pulldown", "Assisted Pull-Up Machine", "Inverted Rows"],
+    position: [-1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, 0],
+    rotation: [0, Math.PI / 2, 0],
+    component: Placeholder,
+  },
   placeholder: {
     id: "placeholder",
     name: "placeholder",
