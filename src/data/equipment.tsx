@@ -44,8 +44,8 @@ export const equipmentData: Record<string, EquipmentData> = {
       "Cable Pull-Throughs",
       "Glute Bridges",
     ],
-    position: [-0.8, -ROOM_DIMENSIONS.H / 2 + 0.12, -1.0],
-    rotation: [0, Math.PI / 4, 0],
+    position: [-1.8, -ROOM_DIMENSIONS.H / 2 + 0.12, 1.5],
+    rotation: [0, 1.5, 0],
     component: Kettlebell,
   },
   dumbbell: {
@@ -78,8 +78,8 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Maintain a firm grip. Keep a neutral spine. Don't drop dumbbells near your feet.",
     alternatives: ["Barbell Curl", "Cable Curl", "Chin-Ups"],
-    position: [0.5  , -ROOM_DIMENSIONS.H / 2 + 0.1, 1],
-    rotation: [0, 1.5, Math.PI / 2],
+    position: [-1.8, -ROOM_DIMENSIONS.H / 2 + 0.1, 2],
+    rotation: [0, 0, Math.PI / 2],
     component: Dumbbell,
   },
   barbell: {
