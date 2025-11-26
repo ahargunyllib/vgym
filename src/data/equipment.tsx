@@ -4,6 +4,7 @@ import { DipStation } from "../components/equipment/dip-station";
 import { Dumbbell } from "../components/equipment/dumbbell";
 import { Kettlebell } from "../components/equipment/kettlebell";
 import { Placeholder } from "../components/equipment/placeholder";
+import { SquatRack } from "../components/equipment/squat-rack";
 import type { EquipmentData } from "../types/equipment";
 import { ROOM_DIMENSIONS } from "./constant";
 
@@ -149,7 +150,7 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       'Always use a spotter when lifting heavy. Ensure lifting clips are on the bar. Do not use a "suicide grip" (thumbless grip).',
     alternatives: ["Dumbbell Bench Press", "Push-Ups", "Chest Press Machine"],
-    position: [0, -ROOM_DIMENSIONS.H / 2, -1.2],
+    position: [0.7, -ROOM_DIMENSIONS.H / 2, -1.2],
     rotation: [0, 0, 0],
     component: BenchPress,
   },
@@ -184,9 +185,9 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Always use safety bars/pins set at an appropriate height. Use a spotter for heavy attempts.",
     alternatives: ["Leg Press", "Goblet Squat", "Lunges"],
-    position: [-1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, -1.5],
-    rotation: [0, 0, 0],
-    component: Placeholder,
+    position: [-1.5, -ROOM_DIMENSIONS.H / 2 , -1.5],
+    rotation: [0, 1, 0],
+    component: SquatRack,
   },
   "pull-up-bar": {
     id: "pull-up-bar",
@@ -251,7 +252,7 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Stop if you feel sharp pain in your shoulders or sternum. Ensure the station is stable.",
     alternatives: ["Bench Dips", "Close-Grip Bench Press", "Cable Pushdowns"],
-    position: [1.5, -ROOM_DIMENSIONS.H / 2 , -1.5],
+    position: [2, -ROOM_DIMENSIONS.H / 2, -1.5],
     rotation: [0, 0, 0],
     component: DipStation,
   },
