@@ -152,6 +152,41 @@ export const equipmentData: Record<string, EquipmentData> = {
     rotation: [0, 0, 0],
     component: BenchPress,
   },
+  "squat-rack": {
+    id: "squat-rack",
+    name: "Squat Rack",
+    exerciseName: "Barbell Back Squat",
+    category: "Strength",
+    difficulty: "Advanced",
+    musclesTargeted: {
+      primary: ["Quadriceps", "Glutes"],
+      secondary: ["Hamstrings", "Calves", "Lower Back", "Core"],
+    },
+    usageInstructions: [
+      "Set the bar height to about chest level.",
+      "Step under the bar, resting it on your upper back/traps.",
+      "Unrack the bar and take two deliberate steps back.",
+      "Stand with feet shoulder-width apart, toes pointed slightly out.",
+      "Lower your hips back and down (sit in a chair motion).",
+      "Go down until thighs are parallel to the floor, then drive back up.",
+    ],
+    properFormTips: [
+      "Keep your chest up and look straight ahead.",
+      "Ensure knees track over your toes, not collapsing inward.",
+      "Brace your core (Valsalva maneuver) before descending.",
+    ],
+    commonMistakes: [
+      '"Butt wink" (rounding the lower back at the bottom).',
+      "Knees caving inward (valgus collapse).",
+      "Not going deep enough (quarter squats).",
+    ],
+    safety:
+      "Always use safety bars/pins set at an appropriate height. Use a spotter for heavy attempts.",
+    alternatives: ["Leg Press", "Goblet Squat", "Lunges"],
+    position: [-1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, -1.5],
+    rotation: [0, 0, 0],
+    component: Placeholder,
+  },
   placeholder: {
     id: "placeholder",
     name: "placeholder",
