@@ -1,3 +1,4 @@
+import { Barbell } from "../components/equipment/barbell";
 import { BenchPress } from "../components/equipment/bench-press";
 import { Dumbbell } from "../components/equipment/dumbbell";
 import { Kettlebell } from "../components/equipment/kettlebell";
@@ -84,6 +85,41 @@ export const equipmentData: Record<string, EquipmentData> = {
     position: [1.2, -ROOM_DIMENSIONS.H / 2 + 0.1, 0.8],
     rotation: [0, 0, Math.PI / 2],
     component: Dumbbell,
+  },
+  barbell: {
+    id: "barbell",
+    name: "Barbell",
+    exerciseName: "Deadlift",
+    category: "Strength",
+    difficulty: "Advanced",
+    musclesTargeted: {
+      primary: ["Hamstrings", "Glutes", "Lower Back", "Trapezius"],
+      secondary: ["Forearms", "Quads", "Lats", "Core"],
+    },
+    usageInstructions: [
+      "Stand with feet hip-width apart, the bar over your mid-foot (laces).",
+      "Bend over and grab the bar just outside your legs.",
+      "Bend your knees until your shins touch the bar.",
+      "Lift your chest up and straighten your lower back.",
+      "Take a deep breath, brace your core, and pull the bar up by driving through your heels.",
+      "Stand tall, hips locked out, then lower the bar under control.",
+    ],
+    properFormTips: [
+      "Keep the bar in contact with your legs throughout the lift.",
+      '"Engage your lats" (pretend you are squeezing oranges in your armpits).',
+      "Do not hyperextend (lean back) at the top.",
+    ],
+    commonMistakes: [
+      "Rounding the back like a scared cat (risk of injury).",
+      "Squatting the weight up (hips too low).",
+      "Jerking the bar off the floor.",
+    ],
+    safety:
+      "This exercise requires strict form. If your back rounds, lower the weight. Use a weight belt if lifting heavy.",
+    alternatives: ["Trap Bar Deadlift", "Rack Pulls", "Romanian Deadlift"],
+    position: [0, -ROOM_DIMENSIONS.H / 2 + 0.1, 1.2],
+    rotation: [0, Math.PI / 2, 0],
+    component: Barbell,
   },
   benchPress: {
     id: "benchPress",
