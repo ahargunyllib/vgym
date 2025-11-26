@@ -27,7 +27,7 @@ export const SceneContent = ({
 
   // Handle camera transitions when entering/exiting showcase mode
   // biome-ignore lint/correctness/useExhaustiveDependencies: false positive
-    useEffect(() => {
+  useEffect(() => {
     if (!(controlsRef.current && cameraRef.current)) {
       return;
     }
