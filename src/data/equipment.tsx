@@ -3,8 +3,9 @@ import { BenchPress } from "../components/equipment/bench-press";
 import { DipStation } from "../components/equipment/dip-station";
 import { Dumbbell } from "../components/equipment/dumbbell";
 import { Kettlebell } from "../components/equipment/kettlebell";
-import { Placeholder } from "../components/equipment/placeholder";
+import { PullUpBar } from "../components/equipment/pull-up-bar";
 import { SquatRack } from "../components/equipment/squat-rack";
+import { Treadmill } from "../components/equipment/treadmill";
 import type { EquipmentData } from "../types/equipment";
 import { ROOM_DIMENSIONS } from "./constant";
 
@@ -77,8 +78,8 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Maintain a firm grip. Keep a neutral spine. Don't drop dumbbells near your feet.",
     alternatives: ["Barbell Curl", "Cable Curl", "Chin-Ups"],
-    position: [1.2, -ROOM_DIMENSIONS.H / 2 + 0.1, 0.8],
-    rotation: [0, 0, Math.PI / 2],
+    position: [0.5  , -ROOM_DIMENSIONS.H / 2 + 0.1, 1],
+    rotation: [0, 1.5, Math.PI / 2],
     component: Dumbbell,
   },
   barbell: {
@@ -185,7 +186,7 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Always use safety bars/pins set at an appropriate height. Use a spotter for heavy attempts.",
     alternatives: ["Leg Press", "Goblet Squat", "Lunges"],
-    position: [-1.5, -ROOM_DIMENSIONS.H / 2 , -1.5],
+    position: [-1.5, -ROOM_DIMENSIONS.H / 2, -1.5],
     rotation: [0, 1, 0],
     component: SquatRack,
   },
@@ -219,9 +220,9 @@ export const equipmentData: Record<string, EquipmentData> = {
     safety:
       "Ensure grip is dry. Don't jump off aggressively from the top position.",
     alternatives: ["Lat Pulldown", "Assisted Pull-Up Machine", "Inverted Rows"],
-    position: [-1.5, -ROOM_DIMENSIONS.H / 2 + 0.5, 0],
+    position: [-1.5, -ROOM_DIMENSIONS.H / 2, 0.5],
     rotation: [0, Math.PI / 2, 0],
-    component: Placeholder,
+    component: PullUpBar,
   },
   "dip-station": {
     id: "dip-station",
@@ -255,6 +256,40 @@ export const equipmentData: Record<string, EquipmentData> = {
     position: [2, -ROOM_DIMENSIONS.H / 2, -1.5],
     rotation: [0, 0, 0],
     component: DipStation,
+  },
+  treadmill: {
+    id: "treadmill",
+    name: "Treadmill",
+    exerciseName: "Treadmill Running/Walking",
+    category: "Cardio",
+    difficulty: "Beginner",
+    musclesTargeted: {
+      primary: ["Quadriceps", "Hamstrings", "Calves"],
+      secondary: ["Glutes", "Core (Abdominals)", "Tibialis Anterior"],
+    },
+    usageInstructions: [
+      "Stand on the side rails, clip the safety key to your clothing.",
+      "Start the belt at a slow walking speed (1-2 mph).",
+      "Step onto the belt carefully.",
+      "Increase speed or incline gradually to your desired intensity.",
+      "To stop, slow down gradually before stepping off.",
+    ],
+    properFormTips: [
+      "Look straight ahead, not down at the console or feet.",
+      "Keep your shoulders back and relaxed.",
+      "Land mid-foot, not heavily on your heels.",
+    ],
+    commonMistakes: [
+      "Holding onto the handrails (reduces calorie burn and alters gait).",
+      "Looking down (strains neck).",
+      "Jumping off while the belt is moving fast.",
+    ],
+    safety:
+      "Always attach the emergency safety clip. Start by straddling the deck, not standing on the belt.",
+    alternatives: ["Outdoor Running", "Jump Rope", "Stair Climber"],
+    position: [1.9, -ROOM_DIMENSIONS.H / 2, 1.2],
+    rotation: [0, 3.15, 0],
+    component: Treadmill,
   },
 };
 
