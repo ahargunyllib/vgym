@@ -124,7 +124,7 @@ export const equipmentData: Record<string, EquipmentData> = {
   benchPress: {
     id: "benchPress",
     name: "Bench Press",
-    exerciseName: "Barbell Bench Press",
+    exerciseName: "Flat Barbell Bench Press",
     category: "Strength",
     difficulty: "Intermediate",
     musclesTargeted: {
