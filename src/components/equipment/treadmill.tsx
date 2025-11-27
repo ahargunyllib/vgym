@@ -60,6 +60,8 @@ export const Treadmill = (props: ThreeElements["group"]) => (
       <meshStandardMaterial color="#3498db" metalness={0.5} roughness={0.3} />
     </mesh>
 
+    
+
     {/* ===== HANDLEBARS ===== */}
     {/* Left handlebar - vertical */}
     <mesh castShadow position={[-0.35, 0.95, -0.7]}>

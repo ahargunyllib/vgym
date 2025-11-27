@@ -35,14 +35,15 @@ export const BenchPress = (props: ThreeElements["group"]) => {
       </mesh>
 
       {/* ===== MAIN FRAME ===== */}
+     
 
       {/* ===== FRONT LEGS ===== */}
       <mesh castShadow position={[0.15, 0.25, 0.35]}>
-        <boxGeometry args={[0.06, 0.5, 0.06]} />
+        <boxGeometry args={[0.06, 0.50, 0.06]} />
         <meshStandardMaterial color="#7f8c8d" metalness={0.8} roughness={0.3} />
       </mesh>
       <mesh castShadow position={[-0.15, 0.25, 0.35]}>
-        <boxGeometry args={[0.06, 0.5, 0.06]} />
+        <boxGeometry args={[0.06, 0.50, 0.06]} />
         <meshStandardMaterial color="#7f8c8d" metalness={0.8} roughness={0.3} />
       </mesh>
 
