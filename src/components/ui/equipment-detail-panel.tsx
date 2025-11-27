@@ -7,7 +7,6 @@ type EquipmentDetailPanelProps = {
 
 export const EquipmentDetailPanel = ({
   equipment,
-  onClose,
 }: EquipmentDetailPanelProps) => {
   if (!equipment) {
     return null;
@@ -29,45 +28,20 @@ export const EquipmentDetailPanel = ({
     <div
       aria-labelledby="equipment-title"
       aria-modal="true"
-      className="fixed right-0 bottom-0 left-0 z-50 h-[80vh] max-h-[80vh] w-full overflow-y-auto rounded-t-2xl border-border border-t bg-card/80 shadow-lg backdrop-blur-sm md:top-0 md:bottom-auto md:left-auto md:h-full md:max-h-full md:w-auto md:max-w-sm md:rounded-none md:border-t-0 md:border-l"
+      className="fixed right-0 bottom-0 left-0 z-50 h-[80vh] max-h-[80vh] w-full overflow-y-auto rounded-t-2xl border-border border-t bg-card/95 shadow-lg backdrop-blur-sm transition-all duration-300 md:top-0 md:bottom-auto md:left-auto md:h-full md:max-h-full md:w-auto md:max-w-sm md:rounded-none md:border-t-0 md:border-l"
       role="dialog"
     >
       <div className="z-10 space-y-2 border-border border-b p-6 pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <h2
-              className="mb-2 font-bold text-2xl text-foreground"
-              id="equipment-title"
-            >
-              {equipment.name}
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              {equipment.exerciseName}
-            </p>
-          </div>
-          <button
-            aria-label="Close panel"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            onClick={onClose}
-            type="button"
+        <div className="flex-1">
+          <h2
+            className="mb-2 font-bold text-2xl text-foreground"
+            id="equipment-title"
           >
-            <svg
-              aria-label="Close icon"
-              fill="none"
-              height="20"
-              role="img"
-              viewBox="0 0 15 15"
-              width="20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                clipRule="evenodd"
-                d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
-                fill="currentColor"
-                fillRule="evenodd"
-              />
-            </svg>
-          </button>
+            {equipment.name}
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            {equipment.exerciseName}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -210,6 +184,12 @@ export const EquipmentDetailPanel = ({
             ))}
           </div>
         </section>
+
+        <div className="mt-6 rounded-lg border border-border bg-muted/30 p-4">
+          <p className="text-center text-muted-foreground text-xs">
+            Look away to dismiss this panel
+          </p>
+        </div>
       </div>
     </div>
   );
