@@ -7,7 +7,7 @@ export const Crosshair = () => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
-        zIndex: 100,
+        zIndex: 10,
       }}
     >
       {/* Center dot */}

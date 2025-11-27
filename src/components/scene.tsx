@@ -1,10 +1,12 @@
 import { Canvas } from "@react-three/fiber";
-import { useCallback, useRef, useState } from "react";
+import { Suspense, useCallback, useRef, useState } from "react";
 import { getEquipmentById } from "../data/equipment";
 import type { EquipmentData } from "../types/equipment";
 import { SceneContent } from "./scene-content";
 import { Crosshair } from "./ui/crosshair";
 import { EquipmentDetailPanel } from "./ui/equipment-detail-panel";
+import { Loading } from "./ui/loading";
+import { MobileMessage } from "./ui/mobile-message";
 
 export const Scene = () => {
   const [selectedEquipment, setSelectedEquipment] =
@@ -29,31 +31,38 @@ export const Scene = () => {
 
   return (
     <>
-      <Canvas fallback={<div>Sorry no WebGL supported!</div>} shadows="soft">
-        <SceneContent
-          controlsRef={controlsRef}
-          onEquipmentHover={handleEquipmentHover}
-          selectedEquipment={selectedEquipment}
+      <Suspense fallback={<Loading />}>
+        <Canvas fallback={<div>Sorry no WebGL supported!</div>} shadows="soft">
+          <SceneContent
+            controlsRef={controlsRef}
+            onEquipmentHover={handleEquipmentHover}
+            selectedEquipment={selectedEquipment}
+          />
+        </Canvas>
+
+        <div className="-translate-x-1/2 fixed bottom-6 left-1/2 z-30 text-center">
+          <h1 className="mb-2 font-bold text-3xl text-primary tracking-wider">
+            VGYM
+          </h1>
+          <p className="rounded-lg border border-border bg-card/90 px-4 py-2 text-muted-foreground text-xs backdrop-blur-sm">
+            WASD to move • Look at equipment to view details •{" "}
+            {selectedEquipment
+              ? "Click to dismiss"
+              : "Press ESC to show cursor"}
+          </p>
+        </div>
+
+        {/* Equipment Detail Panel - Auto-show on hover */}
+        <EquipmentDetailPanel
+          equipment={selectedEquipment}
+          onClose={handleClosePanel}
         />
-      </Canvas>
+      </Suspense>
+
+      {/* Mobile Message - Shows on mobile devices */}
+      <MobileMessage />
 
       <Crosshair />
-
-      <div className="-translate-x-1/2 fixed bottom-6 left-1/2 z-30 text-center">
-        <h1 className="mb-2 font-bold text-3xl text-primary tracking-wider">
-          VGYM
-        </h1>
-        <p className="rounded-lg border border-border bg-card/90 px-4 py-2 text-muted-foreground text-xs backdrop-blur-sm">
-          WASD to move • Look at equipment to view details •{" "}
-          {selectedEquipment ? "Click to dismiss" : "Press ESC to show cursor"}
-        </p>
-      </div>
-
-      {/* Equipment Detail Panel - Auto-show on hover */}
-      <EquipmentDetailPanel
-        equipment={selectedEquipment}
-        onClose={handleClosePanel}
-      />
     </>
   );
 };
