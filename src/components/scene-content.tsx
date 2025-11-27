@@ -168,9 +168,9 @@ export const SceneContent = ({
         shadow-mapSize-width={2048}
       />
 
-      {/* Orange accent light - top middle */}
+      {/* White accent light - top middle */}
       <pointLight
-        color="#ff8800"
+        color="#ffffff"
         decay={2}
         distance={7}
         intensity={2.0}
