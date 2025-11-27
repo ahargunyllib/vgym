@@ -1,4 +1,9 @@
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  useTexture,
+} from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import {
   type PerspectiveCamera as PerspectiveCameraType,
@@ -19,6 +24,27 @@ export const SceneContent = ({
   selectedEquipment,
   onEquipmentClick,
 }: SceneContentProps) => {
+  const { gl } = useThree();
+  const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
+  const textures = useTexture({
+    floor: "/floor.png",
+    ceiling: "/ceiling.png",
+    frontWall: "/front-wall.png",
+    backWall: "/back-wall.png",
+    leftWall: "/left-wall.png",
+    rightWall: "/right-wall.png",
+  });
+
+  // Recommended: prevent blur on large interior textures
+  useEffect(() => {
+    textures.floor.anisotropy = maxAnisotropy;
+    textures.ceiling.anisotropy = maxAnisotropy;
+    textures.frontWall.anisotropy = maxAnisotropy;
+    textures.backWall.anisotropy = maxAnisotropy;
+    textures.leftWall.anisotropy = maxAnisotropy;
+    textures.rightWall.anisotropy = maxAnisotropy;
+  }, [maxAnisotropy, textures]);
+
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const cameraRef = useRef<PerspectiveCameraType>(null);
   const [lastCameraTarget, setLastCameraTarget] = useState<Vector3 | null>(
@@ -158,43 +184,43 @@ export const SceneContent = ({
         rotation={[-Math.PI / 2, 0, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.D]} />
-        <meshStandardMaterial color="#f0f0f0" />
+        <meshStandardMaterial map={textures.floor} />
       </mesh>
 
-      {/* Front wall */}
+      {/* Front Wall */}
       <mesh castShadow position={[0, 0, -ROOM_DIMENSIONS.D / 2]}>
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial color="#e0e0e0" />
+        <meshStandardMaterial map={textures.frontWall} />
       </mesh>
 
-      {/* Back wall */}
+      {/* Back Wall */}
       <mesh
         castShadow
         position={[0, 0, ROOM_DIMENSIONS.D / 2]}
         rotation={[0, Math.PI, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial color="#e0e0e0" />
+        <meshStandardMaterial map={textures.backWall} />
       </mesh>
 
-      {/* Left wall */}
+      {/* Left Wall */}
       <mesh
         castShadow
         position={[-ROOM_DIMENSIONS.W / 2, 0, 0]}
         rotation={[0, Math.PI / 2, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.D, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial color="#d0d0d0" />
+        <meshStandardMaterial map={textures.leftWall} />
       </mesh>
 
-      {/* Right wall */}
+      {/* Right Wall */}
       <mesh
         castShadow
         position={[ROOM_DIMENSIONS.W / 2, 0, 0]}
         rotation={[0, -Math.PI / 2, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.D, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial color="#d0d0d0" />
+        <meshStandardMaterial map={textures.rightWall} />
       </mesh>
 
       {/* Ceiling */}
@@ -204,7 +230,7 @@ export const SceneContent = ({
         rotation={[Math.PI / 2, 0, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.D]} />
-        <meshStandardMaterial color="#f0f0f0" />
+        <meshStandardMaterial map={textures.ceiling} />
       </mesh>
 
       {/* Equipment */}
