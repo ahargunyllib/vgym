@@ -63,7 +63,7 @@ export const SceneContent = ({
 
       // Animate camera target to look at equipment (position stays fixed)
       const startTarget = controlsRef.current.target.clone();
-      const endTarget = new Vector3(...selectedEquipment.position);
+      const endTarget = new Vector3(selectedEquipment.position[0], startTarget.y, selectedEquipment.position[2]);
 
       const duration = 1000; // 1 second
       const startTime = Date.now();
