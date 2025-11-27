@@ -1,15 +1,18 @@
 import {
-  OrbitControls,
   PerspectiveCamera,
+  PointerLockControls,
   useTexture,
 } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import {
+  type Mesh,
   type PerspectiveCamera as PerspectiveCameraType,
+  Raycaster,
+  Vector2,
   Vector3,
 } from "three";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import type { PointerLockControls as PointerLockControlsImpl } from "three-stdlib";
 import { ROOM_DIMENSIONS } from "../data/constant";
 import { equipmentData } from "../data/equipment";
 import type { EquipmentData } from "../types/equipment";
@@ -17,18 +20,22 @@ import Equipment from "./equipment";
 
 type SceneContentProps = {
   selectedEquipment: EquipmentData | null;
-  onEquipmentClick: (id: string | null) => void;
+  onEquipmentHover: (id: string | null) => void;
+  controlsRef: React.RefObject<{
+    lock: () => void;
+    unlock: () => void;
+  } | null>;
 };
 
 export const SceneContent = ({
-  selectedEquipment,
-  onEquipmentClick,
+  onEquipmentHover,
+  controlsRef: externalControlsRef,
 }: SceneContentProps) => {
   const { gl } = useThree();
   const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
   const textures = useTexture({
     floor: "/floor.png",
-    ceiling: "/ceiling.png",
+    ceiling: "/floor.png",
     frontWall: "/front-wall.png",
     backWall: "/back-wall.png",
     leftWall: "/left-wall.png",
@@ -45,105 +52,233 @@ export const SceneContent = ({
     textures.rightWall.anisotropy = maxAnisotropy;
   }, [maxAnisotropy, textures]);
 
-  const controlsRef = useRef<OrbitControlsImpl>(null);
+  const controlsRef = useRef<PointerLockControlsImpl>(null);
   const cameraRef = useRef<PerspectiveCameraType>(null);
-  const [lastCameraTarget, setLastCameraTarget] = useState<Vector3 | null>(
+  const equipmentMeshesRef = useRef<Map<string, Mesh>>(new Map());
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [hoveredEquipmentId, setHoveredEquipmentId] = useState<string | null>(
     null
   );
 
-  // Handle camera transitions when entering/exiting showcase mode
-  // biome-ignore lint/correctness/useExhaustiveDependencies: false positive
+  // Movement state
+  const moveState = useRef({
+    forward: false,
+    backward: false,
+    left: false,
+    right: false,
+  });
+
+  const velocity = useRef(new Vector3());
+  const direction = useRef(new Vector3());
+
+  const MOVE_SPEED = 5;
+  const EYE_HEIGHT = 1.65;
+  const HOVER_DELAY = 800; // milliseconds
+
+  // Expose controls to parent
   useEffect(() => {
-    if (!(controlsRef.current && cameraRef.current)) {
-      return;
-    }
-
-    if (selectedEquipment) {
-      setLastCameraTarget(controlsRef.current.target.clone());
-
-      // Animate camera target to look at equipment (position stays fixed)
-      const startTarget = controlsRef.current.target.clone();
-      const endTarget = new Vector3(...selectedEquipment.position);
-
-      const duration = 1000; // 1 second
-      const startTime = Date.now();
-
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Ease in-out
-        const eased =
-          progress < 0.5
-            ? 2 * progress * progress
-            : 1 - (-2 * progress + 2) ** 2 / 2;
-
-        if (controlsRef.current) {
-          controlsRef.current.target.lerpVectors(startTarget, endTarget, eased);
-          controlsRef.current.update();
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
+    if (controlsRef.current && externalControlsRef) {
+      externalControlsRef.current = {
+        lock: () => controlsRef.current?.lock(),
+        unlock: () => controlsRef.current?.unlock(),
       };
-
-      animate();
-      return;
     }
+  }, [externalControlsRef]);
 
-    // Return to gym view (animate target only, position stays fixed)
-    const startTarget = controlsRef.current.target.clone();
-    const endTarget =
-      lastCameraTarget || new Vector3(0, -ROOM_DIMENSIONS.H / 2 + 1.4, 0);
-
-    const duration = 1000;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      const eased =
-        progress < 0.5
-          ? 2 * progress * progress
-          : 1 - (-2 * progress + 2) ** 2 / 2;
-
-      if (controlsRef.current) {
-        controlsRef.current.target.lerpVectors(startTarget, endTarget, eased);
-        controlsRef.current.update();
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
+  // Keyboard controls for movement
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.code) {
+        case "KeyW":
+        case "ArrowUp":
+          moveState.current.forward = true;
+          break;
+        case "KeyS":
+        case "ArrowDown":
+          moveState.current.backward = true;
+          break;
+        case "KeyA":
+        case "ArrowLeft":
+          moveState.current.left = true;
+          break;
+        case "KeyD":
+        case "ArrowRight":
+          moveState.current.right = true;
+          break;
+        default:
       }
     };
 
-    animate();
-  }, [selectedEquipment]);
+    const handleKeyUp = (event: KeyboardEvent) => {
+      switch (event.code) {
+        case "KeyW":
+        case "ArrowUp":
+          moveState.current.forward = false;
+          break;
+        case "KeyS":
+        case "ArrowDown":
+          moveState.current.backward = false;
+          break;
+        case "KeyA":
+        case "ArrowLeft":
+          moveState.current.left = false;
+          break;
+        case "KeyD":
+        case "ArrowRight":
+          moveState.current.right = false;
+          break;
+        default:
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  // Movement, collision detection, and raycasting for hover
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
+  useFrame((_, delta) => {
+    if (!cameraRef.current) {
+      return;
+    }
+
+    const camera = cameraRef.current;
+
+    // Movement logic
+    velocity.current.x = 0;
+    velocity.current.z = 0;
+
+    direction.current.set(0, 0, 0);
+
+    if (moveState.current.forward) {
+      direction.current.z += 1;
+    }
+    if (moveState.current.backward) {
+      direction.current.z -= 1;
+    }
+    if (moveState.current.left) {
+      direction.current.x -= 1;
+    }
+    if (moveState.current.right) {
+      direction.current.x += 1;
+    }
+
+    // Normalize diagonal movement
+    if (direction.current.length() > 0) {
+      direction.current.normalize();
+    }
+
+    // Apply movement relative to camera direction
+    const forward = new Vector3(0, 0, -1);
+    forward.applyQuaternion(camera.quaternion);
+    forward.y = 0;
+    forward.normalize();
+
+    const right = new Vector3(1, 0, 0);
+    right.applyQuaternion(camera.quaternion);
+    right.y = 0;
+    right.normalize();
+
+    velocity.current.addScaledVector(
+      forward,
+      direction.current.z * MOVE_SPEED * delta
+    );
+    velocity.current.addScaledVector(
+      right,
+      direction.current.x * MOVE_SPEED * delta
+    );
+
+    // Calculate new position
+    const newPosition = camera.position.clone().add(velocity.current);
+
+    // Collision detection with walls
+    const WALL_MARGIN = 0.3;
+    const maxX = ROOM_DIMENSIONS.W / 2 - WALL_MARGIN;
+    const minX = -ROOM_DIMENSIONS.W / 2 + WALL_MARGIN;
+    const maxZ = ROOM_DIMENSIONS.D / 2 - WALL_MARGIN;
+    const minZ = -ROOM_DIMENSIONS.D / 2 + WALL_MARGIN;
+
+    newPosition.x = Math.max(minX, Math.min(maxX, newPosition.x));
+    newPosition.z = Math.max(minZ, Math.min(maxZ, newPosition.z));
+    newPosition.y = -ROOM_DIMENSIONS.H / 2 + EYE_HEIGHT;
+
+    camera.position.copy(newPosition);
+
+    // Raycasting for equipment hover detection (center of screen)
+    const raycaster = new Raycaster();
+    raycaster.setFromCamera(new Vector2(0, 0), camera);
+
+    const meshes = Array.from(equipmentMeshesRef.current.values());
+    const intersects = raycaster.intersectObjects(meshes, true);
+
+    let hitEquipmentId: string | null = null;
+
+    if (intersects.length > 0) {
+      // Find which equipment was hit
+      for (const [id, mesh] of equipmentMeshesRef.current.entries()) {
+        if (
+          intersects.some(
+            (intersection) =>
+              intersection.object === mesh ||
+              intersection.object.parent === mesh
+          )
+        ) {
+          hitEquipmentId = id;
+          break;
+        }
+      }
+    }
+
+    // Handle hover state with delay
+    if (hitEquipmentId !== hoveredEquipmentId) {
+      // Clear existing timer
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+
+      setHoveredEquipmentId(hitEquipmentId);
+
+      if (hitEquipmentId) {
+        // Start delay timer for new equipment
+        hoverTimerRef.current = setTimeout(() => {
+          onEquipmentHover(hitEquipmentId);
+        }, HOVER_DELAY);
+      } else {
+        // Immediately clear when not hovering
+        onEquipmentHover(null);
+      }
+    }
+  });
+
+  // Register equipment mesh refs
+  const handleEquipmentRef = (id: string, mesh: Mesh | null) => {
+    if (mesh) {
+      equipmentMeshesRef.current.set(id, mesh);
+    } else {
+      equipmentMeshesRef.current.delete(id);
+    }
+  };
 
   return (
     <>
       <PerspectiveCamera
-        fov={50}
+        fov={75}
         makeDefault
-        position={[0, -ROOM_DIMENSIONS.H / 2 + 1.65, ROOM_DIMENSIONS.D / 2 - 1]}
+        position={[
+          0,
+          -ROOM_DIMENSIONS.H / 2 + EYE_HEIGHT,
+          ROOM_DIMENSIONS.D / 2 - 1,
+        ]}
         ref={cameraRef}
       />
 
-      <OrbitControls
-        dampingFactor={0.05}
-        enableDamping
-        enablePan={!selectedEquipment}
-        enableRotate={!selectedEquipment}
-        enableZoom={false}
-        maxDistance={30}
-        maxPolarAngle={(2 * Math.PI) / 3}
-        minDistance={2}
-        minPolarAngle={Math.PI / 3}
-        ref={controlsRef}
-        target={[0, -ROOM_DIMENSIONS.H / 2 + 1.4, 0]}
-      />
+      <PointerLockControls ref={controlsRef} />
 
       {/* Hemisphere light with cool gym atmosphere */}
       <hemisphereLight color="#e3f2ff" groundColor="#9e9e9e" intensity={0.5} />
@@ -168,9 +303,9 @@ export const SceneContent = ({
         shadow-mapSize-width={2048}
       />
 
-      {/* Orange accent light - top middle */}
+      {/* White accent light - top middle */}
       <pointLight
-        color="#ff8800"
+        color="#ffffff"
         decay={2}
         distance={7}
         intensity={2.0}
@@ -237,9 +372,9 @@ export const SceneContent = ({
       {Object.values(equipmentData).map((equipment) => (
         <Equipment
           equipment={equipment}
-          isShowcasing={selectedEquipment?.id === equipment.id}
+          isHovered={hoveredEquipmentId === equipment.id}
           key={equipment.id}
-          onClick={() => onEquipmentClick(equipment.id)}
+          onMeshRef={(mesh) => handleEquipmentRef(equipment.id, mesh)}
         />
       ))}
     </>
