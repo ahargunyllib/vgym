@@ -4,6 +4,7 @@ import { getEquipmentById } from "../data/equipment";
 import type { EquipmentData } from "../types/equipment";
 import { SceneContent } from "./scene-content";
 import { EquipmentDetailPanel } from "./ui/equipment-detail-panel";
+import { EquipmentListPanel } from "./ui/equipment-list-panel";
 
 export const Scene = () => {
   const [selectedEquipment, setSelectedEquipment] =
@@ -32,10 +33,16 @@ export const Scene = () => {
         />
       </Canvas>
 
-      {/* Back to Gym Button */}
+      {/* Equipment List Panel - Left Side */}
+      <EquipmentListPanel
+        onEquipmentClick={handleEquipmentClick}
+        selectedEquipmentId={selectedEquipment?.id || null}
+      />
+
+      {/* Back to Gym Button - Center Top */}
       {selectedEquipment && (
         <button
-          className="fixed top-6 left-6 z-30 flex items-center gap-2 rounded-lg border border-border bg-card/90 px-4 py-2 font-medium text-foreground text-sm shadow-lg backdrop-blur-sm transition-colors hover:bg-muted"
+          className="-translate-x-1/2 fixed top-6 left-1/2 z-30 flex items-center gap-2 rounded-lg border border-border bg-card/90 px-4 py-2 font-medium text-foreground text-sm shadow-lg backdrop-blur-sm transition-colors hover:bg-muted"
           onClick={handleClosePanel}
           type="button"
         >
@@ -58,6 +65,16 @@ export const Scene = () => {
           Back to Gym
         </button>
       )}
+
+      {/* VGYM Branding & Guide - Center Bottom */}
+      <div className="-translate-x-1/2 fixed bottom-6 left-1/2 z-30 text-center">
+        <h1 className="mb-2 font-bold text-3xl text-primary tracking-wider">
+          VGYM
+        </h1>
+        <p className="rounded-lg border border-border bg-card/90 px-4 py-2 text-muted-foreground text-xs backdrop-blur-sm">
+          Click on equipment to view details • Use mouse to rotate view
+        </p>
+      </div>
 
       <EquipmentDetailPanel
         equipment={selectedEquipment}
