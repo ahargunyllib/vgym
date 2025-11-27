@@ -1,49 +1,66 @@
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { Group, Mesh } from "three";
 import type { EquipmentData } from "../../types/equipment";
 
 type EquipmentProps = {
   equipment: EquipmentData;
-  isShowcasing: boolean;
-  onClick: () => void;
+  isHovered: boolean;
+  onMeshRef: (mesh: Mesh | null) => void;
 };
 
 export default function Equipment({
   equipment,
-  isShowcasing,
-  onClick,
+  isHovered,
+  onMeshRef,
 }: EquipmentProps) {
   const meshRef = useRef<Mesh | Group>(null);
-  // Gentle rotation animation when showcasing
-  // TODO Fix Issue: animating rotation interferes with initial rotation set on equipment
-  useFrame((state) => {
-    if (meshRef.current && isShowcasing) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
-      return;
-    }
 
+  // Pass mesh ref to parent for raycasting
+  useEffect(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = equipment.rotation[1];
-      return;
+      onMeshRef(meshRef.current as Mesh);
     }
-  });
+    return () => {
+      onMeshRef(null);
+    };
+  }, [onMeshRef]);
 
-  const handlePointerOver = () => {
-    document.body.style.cursor = "pointer";
-  };
-
-  const handlePointerOut = () => {
-    document.body.style.cursor = "default";
-  };
+  // Apply hover effect
+  useEffect(() => {
+    if (meshRef.current) {
+      // Traverse all children and update materials
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO
+      meshRef.current.traverse((child) => {
+        if ((child as Mesh).isMesh) {
+          const mesh = child as Mesh;
+          if (Array.isArray(mesh.material)) {
+            for (const mat of mesh.material) {
+              if ("emissive" in mat) {
+                // biome-ignore lint/suspicious/noExplicitAny: TODO
+                (mat.emissive as any).setHex(
+                  isHovered ? 0x44_44_44 : 0x00_00_00
+                );
+                // biome-ignore lint/suspicious/noExplicitAny: TODO
+                (mat as any).emissiveIntensity = isHovered ? 0.3 : 0;
+              }
+            }
+          } else if ("emissive" in mesh.material) {
+            // biome-ignore lint/suspicious/noExplicitAny: TODO
+            (mesh.material.emissive as any).setHex(
+              isHovered ? 0x44_44_44 : 0x00_00_00
+            );
+            // biome-ignore lint/suspicious/noExplicitAny: TODO
+            (mesh.material as any).emissiveIntensity = isHovered ? 0.3 : 0;
+          }
+        }
+      });
+    }
+  }, [isHovered]);
 
   const Comp = equipment.component;
 
   return (
     <Comp
-      onClick={onClick}
-      onPointerOut={handlePointerOut}
-      onPointerOver={handlePointerOver}
       position={equipment.position}
       ref={meshRef}
       rotation={equipment.rotation}
