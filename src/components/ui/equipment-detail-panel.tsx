@@ -187,7 +187,7 @@ export const EquipmentDetailPanel = ({
 
         <div className="mt-6 rounded-lg border border-border bg-muted/30 p-4">
           <p className="text-center text-muted-foreground text-xs">
-            Look away to dismiss this panel
+            Click outside this panel to close.
           </p>
         </div>
       </div>
