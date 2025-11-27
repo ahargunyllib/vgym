@@ -1,4 +1,9 @@
-import { OrbitControls, PerspectiveCamera, useTexture } from "@react-three/drei";
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  useTexture,
+} from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import {
   type PerspectiveCamera as PerspectiveCameraType,
@@ -19,24 +24,27 @@ export const SceneContent = ({
   selectedEquipment,
   onEquipmentClick,
 }: SceneContentProps) => {
-
-  // LOAD ALL TEXTURES
-  const floorTexture = useTexture("/floor.png");
-  const ceilingTexture = useTexture("/ceiling.png");
-  const wall1 = useTexture("/wall1.png");
-  const wall2 = useTexture("/wall2.png");
-  const wall3 = useTexture("/wall3.png");
-  const wall4 = useTexture("/wall4.png");
+  const { gl } = useThree();
+  const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
+  const textures = useTexture({
+    floor: "/floor.png",
+    ceiling: "/ceiling.png",
+    frontWall: "/front-wall.png",
+    backWall: "/back-wall.png",
+    leftWall: "/left-wall.png",
+    rightWall: "/right-wall.png",
+  });
 
   // Recommended: prevent blur on large interior textures
-  floorTexture.anisotropy = 16;
-  ceilingTexture.anisotropy = 16;
-  wall1.anisotropy = 16;
-  wall2.anisotropy = 16;
-  wall3.anisotropy = 16;
-  wall4.anisotropy = 16;
+  useEffect(() => {
+    textures.floor.anisotropy = maxAnisotropy;
+    textures.ceiling.anisotropy = maxAnisotropy;
+    textures.frontWall.anisotropy = maxAnisotropy;
+    textures.backWall.anisotropy = maxAnisotropy;
+    textures.leftWall.anisotropy = maxAnisotropy;
+    textures.rightWall.anisotropy = maxAnisotropy;
+  }, [maxAnisotropy, textures]);
 
-  
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const cameraRef = useRef<PerspectiveCameraType>(null);
   const [lastCameraTarget, setLastCameraTarget] = useState<Vector3 | null>(
@@ -45,7 +53,7 @@ export const SceneContent = ({
 
   // Handle camera transitions when entering/exiting showcase mode
   // biome-ignore lint/correctness/useExhaustiveDependencies: false positive
-    useEffect(() => {
+  useEffect(() => {
     if (!(controlsRef.current && cameraRef.current)) {
       return;
     }
@@ -176,43 +184,43 @@ export const SceneContent = ({
         rotation={[-Math.PI / 2, 0, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.D]} />
-        <meshStandardMaterial map={floorTexture} />
+        <meshStandardMaterial map={textures.floor} />
       </mesh>
 
-      {/* Front Wall (wall1) */}
+      {/* Front Wall */}
       <mesh castShadow position={[0, 0, -ROOM_DIMENSIONS.D / 2]}>
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial map={wall1} />
+        <meshStandardMaterial map={textures.frontWall} />
       </mesh>
 
-      {/* Back Wall (wall2) */}
+      {/* Back Wall */}
       <mesh
         castShadow
         position={[0, 0, ROOM_DIMENSIONS.D / 2]}
         rotation={[0, Math.PI, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial map={wall2} />
+        <meshStandardMaterial map={textures.backWall} />
       </mesh>
 
-      {/* Left Wall (wall3) */}
+      {/* Left Wall */}
       <mesh
         castShadow
         position={[-ROOM_DIMENSIONS.W / 2, 0, 0]}
         rotation={[0, Math.PI / 2, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.D, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial map={wall3} />
+        <meshStandardMaterial map={textures.leftWall} />
       </mesh>
 
-      {/* Right Wall (wall4) */}
+      {/* Right Wall */}
       <mesh
         castShadow
         position={[ROOM_DIMENSIONS.W / 2, 0, 0]}
         rotation={[0, -Math.PI / 2, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.D, ROOM_DIMENSIONS.H]} />
-        <meshStandardMaterial map={wall4} />
+        <meshStandardMaterial map={textures.rightWall} />
       </mesh>
 
       {/* Ceiling */}
@@ -222,7 +230,7 @@ export const SceneContent = ({
         rotation={[Math.PI / 2, 0, 0]}
       >
         <planeGeometry args={[ROOM_DIMENSIONS.W, ROOM_DIMENSIONS.D]} />
-        <meshStandardMaterial map={ceilingTexture} />
+        <meshStandardMaterial map={textures.ceiling} />
       </mesh>
 
       {/* Equipment */}
