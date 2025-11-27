@@ -29,7 +29,7 @@ export const EquipmentDetailPanel = ({
     <div
       aria-labelledby="equipment-title"
       aria-modal="true"
-      className="fixed top-0 right-0 z-50 h-full w-1/4 overflow-y-auto border-border border-l bg-card/80 shadow-lg backdrop-blur-sm"
+      className="fixed top-0 right-0 z-50 h-full max-w-sm overflow-y-auto border-border border-l bg-card/80 shadow-lg backdrop-blur-sm"
       role="dialog"
     >
       <div className="z-10 space-y-2 border-border border-b p-6 pb-4">
